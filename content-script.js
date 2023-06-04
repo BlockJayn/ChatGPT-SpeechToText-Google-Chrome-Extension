@@ -46,15 +46,9 @@ recognition.interimResults = true; // Show preliminary results/words while speak
  *   Selectors
  *********************************************/
 
-console.log("script is running");
-const inputField = document.getElementById("prompt-textarea");
-console.log("inputField", inputField);
-const submitButton = inputField.nextSibling;
-console.log("submitButton", submitButton);
-const submitButtonClasslist = submitButton.className;
-
-/* Always Enable Submit Button */
-submitButton.removeAttribute("disabled");
+let inputField = document.getElementById("prompt-textarea");
+let submitButton = inputField.nextSibling;
+let submitButtonClasslist = submitButton.className;
 
 /**********************************************
  *   Add Mic Button
@@ -70,7 +64,7 @@ const micButtonSVGActive =
 const micButton = document.createElement("button");
 micButton.innerHTML = micButtonSVGInactive;
 micButton.type = "button";
-micButton.name = "micButton";
+micButton.id = "micButton";
 micButton.style.cssText +=
   "right: 60px;height: 32px;width: 32px;padding: 0;display: flex;justify-content: center;align-items: center;";
 micButton.classList = submitButtonClasslist;
@@ -78,11 +72,36 @@ submitButton.parentNode.insertBefore(micButton, submitButton);
 
 micButton.addEventListener("click", () => {
   if (!microphoneIsActive) {
-    startRecognotion();
+    startRecognotion(true);
   } else {
-    stopRecognotion();
+    stopRecognotion(true);
   }
 });
+
+// Listen to Domain-Changes and add Mic-Button again if necessary
+// let prevUrl = undefined;
+// setInterval(() => {
+//   const currUrl = window.location.href;
+//   inputField = document.getElementById("prompt-textarea");
+//   submitButton = inputField.nextSibling;
+//   submitButtonClasslist = submitButton.className;
+
+//   const foundMicButton = document.getElementById("micButton");
+//   console.log("foundMicButton", foundMicButton);
+//   const foundSubmitButton = document.getElementById("micButton");
+//   console.log("foundMicButton", foundMicButton);
+
+//   if (!foundMicButton && currUrl != prevUrl) {
+//     console.log("no mic button");
+//     console.log("submitButton New", submitButton);
+//     // URL changed
+//     prevUrl = currUrl;
+//     console.log(`URL changed to : ${currUrl}`);
+//     submitButton.parentNode.insertBefore(micButton, submitButton);
+//   } else {
+//     console.log("mic button is there");
+//   }
+// }, 3000);
 
 /**********************************************
  *   Functions
@@ -90,26 +109,28 @@ micButton.addEventListener("click", () => {
 
 /* Start Voice Recognition */
 
-function startRecognotion() {
+function startRecognotion(withNotification) {
   microphoneIsActive = true;
   recognition.start();
 
   inputField.placeholder = "Speak something.";
   micButton.classList.add("pulseRed");
   micButton.innerHTML = micButtonSVGActive;
-  newToast(toast, "Speech to Text has started");
+
+  withNotification ? newToast(toast, "Speech to Text has started") : undefined;
 }
 
 /* Stop Voice Recognition */
 
-function stopRecognotion() {
+function stopRecognotion(withNotification) {
   microphoneIsActive = false;
   recognition.stop();
 
   inputField.placeholder = "Send a message.";
   micButton.classList.remove("pulseRed");
   micButton.innerHTML = micButtonSVGInactive;
-  newToast(toast, "Speech to Text has stopped");
+
+  withNotification ? newToast(toast, "Speech to Text has stopped") : undefined;
 }
 
 /* Clear Input Field */
@@ -154,7 +175,7 @@ function newToast(toast, text) {
  *   Run Script -
  *********************************************/
 
-console.clear();
+// console.clear();
 
 /* Run Script - On Speech-to-Text Result */
 
@@ -163,6 +184,9 @@ recognition.onresult = function(event) {
   let finalBefore = "";
   let interim = "";
   let speechInputHistory = [];
+
+  /* Enable Submit Button */
+  submitButton.removeAttribute("disabled");
 
   for (let i = 0; i < event.results.length; ++i) {
     finalBefore = final;
@@ -177,9 +201,9 @@ recognition.onresult = function(event) {
 
       if (final.includes("clear input")) {
         // Restart Recognition
-        stopRecognotion();
+        stopRecognotion(false);
         setTimeout(() => {
-          startRecognotion();
+          startRecognotion(false);
         }, 400);
 
         final = "";
@@ -188,20 +212,23 @@ recognition.onresult = function(event) {
         newToast(toast, "Input cleared.");
       }
 
-      //   /* Speech Command: Enter */
+      /* Speech Command: Enter */
+
       if (final.includes("enter")) {
         final = "";
         speechInputHistory = [];
+        console.log(submitButton);
+        submitButton.click();
 
-        let keyboardEvent = new KeyboardEvent("keydown", {
-          code: "Enter",
-          key: "Enter",
-          charCode: 13,
-          keyCode: 13,
-          view: window,
-          bubbles: true,
-        });
-        inputField.dispatchEvent(keyboardEvent);
+        // let keyboardEvent_enter = new KeyboardEvent("keydown", {
+        //   code: "Enter",
+        //   key: "Enter",
+        //   charCode: 13,
+        //   keyCode: 13,
+        //   view: window,
+        //   bubbles: true,
+        // });
+        // inputField.dispatchEvent(keyboardEvent_enter);
 
         newToast(toast, "Pressed enter.");
       }
@@ -210,7 +237,7 @@ recognition.onresult = function(event) {
 
       if (final.includes("stop")) {
         final = final.split("stop")[0];
-        stopRecognotion();
+        stopRecognotion(true);
       }
 
       /* Speech Command: Replace */
@@ -281,6 +308,9 @@ recognition.onresult = function(event) {
   /* Add to input field in browser */
   let finalInputValue = final + interim;
   inputField.value = finalInputValue.trim().replaceAll("  ", " ");
+
+  /* Always set focus to input field after */
+  inputField.focus();
 };
 
 /* Run Script - On Voice End */

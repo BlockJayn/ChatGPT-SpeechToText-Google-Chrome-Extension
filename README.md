@@ -18,14 +18,13 @@
   </p>
 </div>
 
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 Simply click on the microphone icon and start talking
 
 <img width="600" alt="project" src="https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension/assets/99530800/37b585c2-4c5b-4c27-89a7-717a61f0a6b9">
-
 
 ### Installation
 
@@ -36,22 +35,24 @@ _At the moment this extension has not been published yet. It will be available s
 3. Install
 4. Visit https://chat.openai.com/ and click the microphone-icon in the input-field
 
-
 ## Speech-Commands
+
 - enter
 - backwards
 - replace XXX with YYY
 - clear input
 
-
 ## Roadmap
 
-- [x] Launch v1
+- [x] Launch Beta
+- [ ] Fix Enter Command
+- [ ] Add Voice-Button again after URL-change
+- [ ] Maybe confirm voice commands not with toast, but show them above input field
+- [ ] Launch Release v1 in Chrome Store
 - [ ] Add custom commands
 - [ ] Multi-language Support
-    - [x] English
-    - [ ] German
-
+  - [x] English
+  - [ ] German
 
 ## Contributing
 
@@ -60,15 +61,12 @@ Contributions are what make the open source community such an amazing place to l
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
 
-
 ## License
 
 Distributed under the MIT License.
-
 
 ## Contact
 
 Twitter: [@BlockJayn](https://twitter.com/BlockJayn)
 
 Project Link: https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension
-
