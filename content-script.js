@@ -1,4 +1,6 @@
-/* Add Own Custom Stylesheet */
+/**********************************************
+ *   Add Own Custom Stylesheet
+ *********************************************/
 
 const styles = `
 .pulseRed {
@@ -30,7 +32,9 @@ const styleSheet = document.createElement("style");
 styleSheet.innerText = styles;
 document.head.appendChild(styleSheet);
 
-/* Voice Recognition */
+/**********************************************
+ *   Voice Recognition
+ *********************************************/
 
 const recognition = new webkitSpeechRecognition();
 recognition.continuous = true; //
@@ -38,7 +42,10 @@ recognition.interimResults = true; // Show preliminary results/words while speak
 //   reset(); // Reset on every new start
 //   recognition.onend = reset;
 
-/* Selectors */
+/**********************************************
+ *   Selectors
+ *********************************************/
+
 console.log("script is running");
 const inputField = document.getElementById("prompt-textarea");
 console.log("inputField", inputField);
@@ -49,7 +56,9 @@ const submitButtonClasslist = submitButton.className;
 /* Always Enable Submit Button */
 submitButton.removeAttribute("disabled");
 
-/* Add Mic Button */
+/**********************************************
+ *   Add Mic Button
+ *********************************************/
 
 let microphoneIsActive = false;
 
@@ -75,6 +84,12 @@ micButton.addEventListener("click", () => {
   }
 });
 
+/**********************************************
+ *   Functions
+ *********************************************/
+
+/* Start Voice Recognition */
+
 function startRecognotion() {
   microphoneIsActive = true;
   recognition.start();
@@ -84,6 +99,9 @@ function startRecognotion() {
   micButton.innerHTML = micButtonSVGActive;
   newToast(toast, "Speech to Text has started");
 }
+
+/* Stop Voice Recognition */
+
 function stopRecognotion() {
   microphoneIsActive = false;
   recognition.stop();
@@ -94,9 +112,15 @@ function stopRecognotion() {
   newToast(toast, "Speech to Text has stopped");
 }
 
+/* Clear Input Field */
+
 function clearInput() {
   inputField.value = "";
 }
+
+/**********************************************
+ *   Toast
+ *********************************************/
 
 /* Add Toast Html-Element */
 
@@ -126,13 +150,13 @@ function newToast(toast, text) {
   }, 2000);
 }
 
-/* Run Script */
-/* On Speech-to-Text Result */
+/**********************************************
+ *   Run Script -
+ *********************************************/
 
-recognition.onend = function() {
-  stopRecognotion();
-};
-// console.clear();
+console.clear();
+
+/* Run Script - On Speech-to-Text Result */
 
 recognition.onresult = function(event) {
   let final = "";
@@ -140,24 +164,18 @@ recognition.onresult = function(event) {
   let interim = "";
   let speechInputHistory = [];
 
-  console.log(event.results);
-
   for (let i = 0; i < event.results.length; ++i) {
     finalBefore = final;
 
     if (event.results[i].isFinal) {
-      console.log("");
-      console.log("################# FINAL CALLED");
-      console.log("## Final-Input:", event.results[i][0].transcript);
-
       final += event.results[i][0].transcript;
+
+      // Add final Speech-Input to Speech-History-Array
       speechInputHistory.push(event.results[i][0].transcript.trim());
 
-      /* Speech Command: New Try */
-      console.log("#######################final", final);
-      if (final.includes("clear input")) {
-        console.log("## WORD FOUND - Input:", event.results[i][0].transcript);
+      /* Speech Command: Clear Input | New Try */
 
+      if (final.includes("clear input")) {
         // Restart Recognition
         stopRecognotion();
         setTimeout(() => {
@@ -166,39 +184,48 @@ recognition.onresult = function(event) {
 
         final = "";
         speechInputHistory = [];
-        newToast(toast, "Input cleared");
-        console.log(
-          "################event.results[i][0].transcript",
-          event.results[i][0].transcript
-        );
+
+        newToast(toast, "Input cleared.");
       }
+
+      //   /* Speech Command: Enter */
+      if (final.includes("enter")) {
+        final = "";
+        speechInputHistory = [];
+
+        let keyboardEvent = new KeyboardEvent("keydown", {
+          code: "Enter",
+          key: "Enter",
+          charCode: 13,
+          keyCode: 13,
+          view: window,
+          bubbles: true,
+        });
+        inputField.dispatchEvent(keyboardEvent);
+
+        newToast(toast, "Pressed enter.");
+      }
+
       /* Speech Command: Stop */
-      if (
-        final.includes("stop") ||
-        final.includes("microphone off") ||
-        final.includes("stop recording")
-      ) {
+
+      if (final.includes("stop")) {
         final = final.split("stop")[0];
         stopRecognotion();
       }
+
       /* Speech Command: Replace */
-      console.log(
-        "--------final.split().length ",
-        event.results[i][0].transcript.split(" ").length
-      );
+
       if (
         final.includes("replace") &&
         final.includes("with") &&
         event.results[i][0].transcript.trim().split(" ").length === 4 // Check if there are 4 words "replace XXX with YYY"
       ) {
-        // ToDo: Currently everything is converted to LowerCase, as strings wouldnt match otherwise
+        // ToDo: Currently everything is converted to LowerCase, as strings wouldnt match otherwise.
         // There are better solutions for this tho.
-        let originalString = final;
         let replaceString = final.split("replace")[1];
         let wordToReplace = replaceString.split(" ")[1];
         let newWord = replaceString.split(" ")[3];
-        console.log("wordToReplace", wordToReplace);
-        console.log("newWord", newWord);
+
         final = final.split("replace")[0];
 
         if (wordToReplace && newWord) {
@@ -206,19 +233,12 @@ recognition.onresult = function(event) {
           newWord = newWord.toLowerCase();
 
           final = final.toLowerCase().replaceAll(wordToReplace, newWord);
-          console.log("################################# FINAL", final);
-          newToast(toast, "Word replaced");
 
-          console.log(
-            "-----------------------",
-            event.results[i][0].transcript.trim()
-          );
-          // Remove "replace XXX with YYY" from History Array
+          // Remove "replace XXX with YYY" from Speech-History-Array
           speechInputHistory.pop();
 
-          // Filter out of Array History
+          // Replace words also in Speech-History-Array
           for (let j = 0; j < speechInputHistory.length; ++j) {
-            // console.log(j);
             if (speechInputHistory[j].includes(wordToReplace)) {
               speechInputHistory[j] = speechInputHistory[j].replace(
                 wordToReplace,
@@ -226,95 +246,45 @@ recognition.onresult = function(event) {
               );
             }
           }
+
+          newToast(toast, "Word successfully replaced.");
         }
       }
+
       /* Speech Command: One step back */
+
       if (final.includes("backwards")) {
         if (speechInputHistory.length > 0) {
           let lastIndexOfHistory = speechInputHistory.length - 2; // skip the last word "backwards"
 
-          console.log(
-            "speechInputHistory[lastIndexOfHistory]",
-            speechInputHistory[lastIndexOfHistory]
-          );
-
           final = final.split(speechInputHistory[lastIndexOfHistory])[0];
-          speechInputHistory.pop();
-          speechInputHistory.pop(); // pop 2 times to remove the last word "backwards" too
-          console.log("speechInputHistory after pop", speechInputHistory);
-          newToast(toast, "Backwards");
+
+          // Delete last Speech-Inputs form Speech-History-Array
+          speechInputHistory.pop(); // remove the command "backwards"
+          speechInputHistory.pop(); // remove the last speech input before "backwards"
+
+          newToast(toast, "Last voice input removed.");
         } else {
         }
       }
     } else {
-      console.log("");
-
-      console.log("################# INTERIM CALLED");
-      console.log("## Interim-Input:", event.results[i][0].transcript);
       interim += event.results[i][0].transcript;
     }
   }
 
-  console.log("");
-  console.log("################# SENT TO INPUT FIELD");
-  console.log("FINAL:", final);
-  console.log("INTERIM", interim);
+  /* Logs */
+  console.log("### Added to input field ###");
+  console.log("# Final:", final);
+  console.log("# Interim:", interim);
+  // console.log("# speechInputHistory:", speechInputHistory);
 
-  /* Speech Command: New Try */
-  //   if (final.includes("clear input")) {
-  //     final = "";
-  //     interim =""
-  //     newToast(toast, "Input cleared");
-  //   }
-  console.log("speechInputHistory", speechInputHistory);
+  /* Add to input field in browser */
   let finalInputValue = final + interim;
   inputField.value = finalInputValue.trim().replaceAll("  ", " ");
 };
 
-//////// FILTER
-//   /* Speech Command: Enter */
-//   if (interim.includes("clear input")) {
-//     console.log("### CLEAR");
-//     final = "";
-//     interim = "";
-//     inputField.value = "";
+/* Run Script - On Voice End */
 
-//     newToast(toast, "Input cleared");
-//   }
-//   if (wordBuffer.includes("enter")) {
-//     final = "";
-//     newToast(toast, "Submitted");
-//     let keyboardEvent = new KeyboardEvent("keydown", {
-//       code: "Enter",
-//       key: "Enter",
-//       charCode: 13,
-//       keyCode: 13,
-//       view: window,
-//       bubbles: true,
-//     });
-//     inputField.dispatchEvent(keyboardEvent);
-//   }
-//   /* Speech Command: Stop */
-//   if (
-//     final.includes("stop") ||
-//     final.includes("microphone off") ||
-//     final.includes("stop recording")
-//   ) {
-//     newToast(toast, "Stopped");
-//     recognition.stop();
-//   }
-
-// chrome.action.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
-// chrome.action.onClicked.addListener((tab) => {
-//     if (!tab.url.includes("chrome://") && tab.url.includes("chat.openai.com")) {
-//       chrome.scripting.executeScript({
-//         target: { tabId: tab.id },
-//         function: runSpeechToText,
-//       });
-//     }
-
-//   });
-
-// getCurrentTab().then((tab) => {
-//   console.log(tab);
-// });
+recognition.onend = function() {
+  stopRecognotion();
+};
