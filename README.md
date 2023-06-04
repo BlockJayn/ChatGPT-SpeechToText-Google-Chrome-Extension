@@ -28,7 +28,7 @@ Simply click on the microphone icon and start talking
 
 ### Installation
 
-_At the moment this extension has not been published yet. It will be available soon in Google Chrome Store._
+_This extension has not been published yet. It will be available soon in Google Chrome Store._
 
 1. Go to the Google Chrome Store
 2. Search for "ChatGPT Speech To Text"
