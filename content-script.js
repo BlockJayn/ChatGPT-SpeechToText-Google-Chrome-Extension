@@ -220,15 +220,15 @@ recognition.onresult = function(event) {
         console.log(submitButton);
         submitButton.click();
 
-        // let keyboardEvent_enter = new KeyboardEvent("keydown", {
-        //   code: "Enter",
-        //   key: "Enter",
-        //   charCode: 13,
-        //   keyCode: 13,
-        //   view: window,
-        //   bubbles: true,
-        // });
-        // inputField.dispatchEvent(keyboardEvent_enter);
+        let keyboardEvent_enter = new KeyboardEvent("keydown", {
+          code: "Enter",
+          key: "Enter",
+          charCode: 13,
+          keyCode: 13,
+          view: window,
+          bubbles: true,
+        });
+        inputField.dispatchEvent(keyboardEvent_enter);
 
         newToast(toast, "Pressed enter.");
       }
