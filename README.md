@@ -48,6 +48,8 @@ _At the moment this extension has not been published yet. It will be available s
 - [ ] Fix Enter Command
 - [ ] Add Voice-Button again after URL-change
 - [ ] Apply Button-Style (green) instead of violet
+- [ ] Implement loading of custom CSS from external file
+- [ ] Implement loading JS from external source (similar to codepush?)
 - [ ] Maybe confirm voice commands not with toast, but show them above input field
 - [ ] Launch Release v1 in Chrome Store
 - [ ] Add custom commands
