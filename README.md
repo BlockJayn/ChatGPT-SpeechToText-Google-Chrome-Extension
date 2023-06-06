@@ -70,6 +70,10 @@ Don't forget to give the project a star! Thanks again!
 
 Distributed under the MIT License.
 
+## Disclaimer
+
+This is a private project. We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with the OpenAI, ChatGPT, or any of its subsidiaries or its affiliates.
+
 ## Contact
 
 Twitter: [@BlockJayn](https://twitter.com/BlockJayn)
