@@ -9,51 +9,152 @@
       name="description"
       content="Google Chrome Extension to enable ChatGPT Speech to Text."
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link rel="stylesheet" href="styles/popup.css" />
+
+
   </head>
 
   <body>
-    <div class="header">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
-        viewBox="0 0 512 512"
-      >
-        <title>ChatGPT Speech to Text Logo</title>
-        <line
-          x1="192"
-          y1="448"
-          x2="320"
-          y2="448"
-          style="fill:none;stroke:#fff;stroke-linecap:square;stroke-miterlimit:10;stroke-width:32px"
-        />
-        <path
-          d="M384,208v32c0,70.4-57.6,128-128,128h0c-70.4,0-128-57.6-128-128V208"
-          style="fill:none;stroke:#fff;stroke-linecap:square;stroke-miterlimit:10;stroke-width:32px"
-        />
-        <line
-          x1="256"
-          y1="368"
-          x2="256"
-          y2="448"
-          style="fill:none;stroke:#fff;stroke-linecap:square;stroke-miterlimit:10;stroke-width:32px"
-        />
-        <path
-          d="M256,320a78.83,78.83,0,0,1-56.55-24.1A80.89,80.89,0,0,1,176,239V128a79.69,79.69,0,0,1,80-80c44.86,0,80,35.14,80,80V239C336,283.66,300.11,320,256,320Z"
-          style="fill:#fff;stroke:#fff;"
-        />
-      </svg>
+    <!-- Header -->
+    <div id="header" class="header">
+      <div class="header-left">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="30"
+          height="30"
+          viewBox="0 0 512 512"
+        >
+          <title>ChatGPT Speech to Text Logo</title>
+          <line
+            x1="192"
+            y1="448"
+            x2="320"
+            y2="448"
+            style="fill:none;stroke:#fff;stroke-linecap:square;stroke-miterlimit:10;stroke-width:32px"
+          />
+          <path
+            d="M384,208v32c0,70.4-57.6,128-128,128h0c-70.4,0-128-57.6-128-128V208"
+            style="fill:none;stroke:#fff;stroke-linecap:square;stroke-miterlimit:10;stroke-width:32px"
+          />
+          <line
+            x1="256"
+            y1="368"
+            x2="256"
+            y2="448"
+            style="fill:none;stroke:#fff;stroke-linecap:square;stroke-miterlimit:10;stroke-width:32px"
+          />
+          <path
+            d="M256,320a78.83,78.83,0,0,1-56.55-24.1A80.89,80.89,0,0,1,176,239V128a79.69,79.69,0,0,1,80-80c44.86,0,80,35.14,80,80V239C336,283.66,300.11,320,256,320Z"
+            style="fill:#fff;stroke:#fff;"
+          />
+        </svg>
 
-      <div class="header-title">ChatGPT Speech To Text</div>
+        <!-- Button -->
+        <div class="header-right">
+          <div class="header-title">ChatGPT Speech To Text</div>
+        </div>
+      </div>
+
+      <div class="tooltip">
+        <a href="https://chat.openai.com/" target="_blank">
+          <button class="btn"><i class="fa fa-home"></i></button>
+        </a>
+
+        <span class="tooltiptext tooltip-left">Go to ChatGPT</span>
+      </div>
     </div>
+
+    <!-- Content -->
     <div class="content">
       <p>This extension is still under development.</p>
 
+      <!-- Rounded switch -->
+      <label class="switch">
+        <input type="checkbox" />
+        <span class="slider round"></span>
+      </label>
+
+      <!-- Input-Fields -->
+      <h2>Voice Commands:</h2>
+
+      <div class="input-container">
+        <i class="fa fa-paper-plane icon"></i>
+        <input
+          id="commandEnter"
+          class="input-field"
+          type="text"
+          placeholder="enter"
+          autocomplete="false"
+        />
+      </div>
+
+      <div class="input-container">
+        <i class="fa fa-backward icon"></i>
+        <input
+          id="commandBack"
+          class="input-field"
+          type="text"
+          placeholder="backwards"
+          autocomplete="false"
+        />
+      </div>
+
+      <div class="input-container">
+        <i class="fa fa-copy icon"></i>
+        <input
+          id="commandReplace"
+          class="input-field"
+          type="text"
+          placeholder="replace X with Y"
+          autocomplete="false"
+          disabled
+        />
+      </div>
+
+      <div class="input-container">
+        <i class="fa fa-trash icon"></i>
+        <input
+          id="commandClear"
+          class="input-field"
+          type="text"
+          placeholder="clear input"
+          autocomplete="false"
+        />
+      </div>
+
+      <div class="input-container">
+        <i class="fa fa-microphone-slash icon"></i>
+        <input
+          id="commandStop"
+          class="input-field"
+          type="text"
+          placeholder="stop"
+          autocomplete="false"
+        />
+      </div>
+
+      <!-- Footer -->
+      <hr />
+      <div class="content-footer-links">
+        <a
+          href="https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension"
+          target="_blank"
+          >GitHub</a
+        >
+        |
+        <a
+          href="https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension#disclaimer"
+          target="_blank"
+          >Disclaimer</a
+        >
+      </div>
+
       <!-- <p>If you like this tool, please leave a tip!</p>
       <a href="https://paypal.me/" target="_blank">Paypal</a> -->
-
-      <!-- <button id="btn">Click me</button> -->
     </div>
 
     <script src="popup.js"></script>

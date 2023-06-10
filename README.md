@@ -48,16 +48,21 @@ _This extension has not been published yet. It will be available soon in Google 
 - [x] Launch Beta
 - [ ] Fix open topics
   - [ ] Fix Enter Command
+  - [ ] Add custom commands
   - [ ] Add Voice-Button again after URL-change
   - [ ] Add Disclaimer in ReadMe and popup
   - [ ] Add Credits in ReadMe
+  - [ ] Add Webspeech API Info
+  - [ ] Add privacy note - no data stored/shared
+  - [ ] Add Non-Monetarization and Accessibility Description
+  - [ ] Add codepush / Update Available function + Badge
   - [ ] Apply Button-Style (green) instead of violet
   - [ ] Implement loading of custom CSS from external file
   - [ ] Implement loading JS from external source (similar to codepush?)
   - [ ] Maybe confirm voice commands not with toast, but show them above input field
 - [ ] Launch Release v1 in Chrome Store
-- [ ] Add custom commands
 - [ ] Add prompt-builder / helper
+- [ ] Add text-reader
 
 ## Contributing
 

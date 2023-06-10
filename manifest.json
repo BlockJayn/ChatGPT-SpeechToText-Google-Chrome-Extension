@@ -11,7 +11,8 @@
     "activeTab",
     "clipboardRead",
     "clipboardWrite",
-    "tabs"
+    "tabs",
+    "storage"
   ],
 
   "icons": {

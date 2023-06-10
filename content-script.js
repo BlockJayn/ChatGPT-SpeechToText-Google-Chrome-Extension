@@ -1,4 +1,42 @@
 /**********************************************
+ *   Custom Commands:
+ *   get from localStorage or set default value
+ *********************************************/
+
+const commands = {
+  commandEnter: localStorage.getItem("commandEnter")
+    ? localStorage.getItem("commandEnter")
+    : "enter",
+
+  commandBack: localStorage.getItem("commandBack")
+    ? localStorage.getItem("commandBack")
+    : "backwards",
+
+  commandReplace: "replace X with Y", // Changes for commandReplace are not allowed
+
+  commandClear: localStorage.getItem("commandClear")
+    ? localStorage.getItem("commandClear")
+    : "clear input",
+
+  commandStop: localStorage.getItem("commandStop")
+    ? localStorage.getItem("commandStop")
+    : "stop",
+};
+
+// TEST COMMAND
+let testCommand;
+let nochnTest = chrome.storage.sync.get("commandTest").then((result) => {
+  testCommand = result.commandTest;
+  console.log("RESULT", result.commandTest);
+  return result.commandTest;
+});
+console.log();
+setTimeout(() => {
+  console.log("testCommand", testCommand);
+  console.log("nochnTest", nochnTest);
+}, 2000);
+
+/**********************************************
  *   Add Own Custom Stylesheet
  *********************************************/
 
@@ -51,6 +89,13 @@ let submitButton = inputField.nextSibling;
 let submitButtonClasslist = submitButton.className;
 
 /**********************************************
+ *   Modify ChatGPT Submit Button
+ *********************************************/
+
+submitButton.style.cssText += "background-color: rgb(25, 195, 125);";
+submitButton.removeAttribute("disabled");
+
+/**********************************************
  *   Add Mic Button
  *********************************************/
 
@@ -66,7 +111,7 @@ micButton.innerHTML = micButtonSVGInactive;
 micButton.type = "button";
 micButton.id = "micButton";
 micButton.style.cssText +=
-  "right: 60px;height: 32px;width: 32px;padding: 0;display: flex;justify-content: center;align-items: center;";
+  "right: 60px;height: 32px;width: 32px;padding: 0;display: flex;justify-content: center;align-items: center; background-color: rgb(25, 195, 125);";
 micButton.classList = submitButtonClasslist;
 submitButton.parentNode.insertBefore(micButton, submitButton);
 
@@ -113,7 +158,7 @@ function startRecognotion(withNotification) {
   microphoneIsActive = true;
   recognition.start();
 
-  inputField.placeholder = "Speak something.";
+  inputField.placeholder = "Say something.";
   micButton.classList.add("pulseRed");
   micButton.innerHTML = micButtonSVGActive;
 
@@ -217,8 +262,10 @@ recognition.onresult = function(event) {
       if (final.includes("enter")) {
         final = "";
         speechInputHistory = [];
+
         console.log(submitButton);
-        submitButton.click();
+
+        // submitButton.click();
 
         let keyboardEvent_enter = new KeyboardEvent("keydown", {
           code: "Enter",
@@ -235,8 +282,13 @@ recognition.onresult = function(event) {
 
       /* Speech Command: Stop */
 
-      if (final.includes("stop")) {
-        final = final.split("stop")[0];
+      if (final.includes(testCommand)) {
+        console.log(
+          "################################stop command:",
+          testCommand
+        );
+
+        final = final.split(commands.commandStop)[0];
         stopRecognotion(true);
       }
 
