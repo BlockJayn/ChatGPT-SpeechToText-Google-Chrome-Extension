@@ -349,8 +349,6 @@ html, body {margin: 0; height: 100%; overflow: hidden}.toast,.toast .close{top:1
     recognition.onend = function() {
       stopRecognotion();
     };
-  } else {
-    console.log("no");
   }
 }
 

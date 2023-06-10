@@ -1,4 +1,5 @@
 // Change icon dependend on current tab
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tab.url.includes("chat.openai.com")) {
     chrome.action.setIcon({

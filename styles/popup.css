@@ -65,7 +65,21 @@ body {
   color: rgb(9, 163, 99);
 }
 
+.enableDisableExtension {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.enableDisableExtension .labeltext {
+  margin-right: 15px;
+  font-weight: bold;
+}
 /* Footer */
+
+.footer {
+  text-align: center;
+}
 
 .content hr {
   margin: 20px 0 10px;
