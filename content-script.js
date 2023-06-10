@@ -23,21 +23,31 @@ Object.keys(defaultCommands).forEach((key) => {
 });
 
 // Get stored custom-commands from Chrome-Storage
-chrome.storage.sync
-  .get(defaultCommandIDs)
-  .then((result) => {
-    // result returns an object with all custom commands that have been stored
-    // For each stored key/value-pair, update "commands"-object to stored value
-    Object.keys(result).forEach((resultKey) => {
-      commands[resultKey] = result[resultKey];
+function getStorageCommands() {
+  chrome.storage.sync
+    .get(defaultCommandIDs)
+    .then((result) => {
+      // result returns an object with all custom commands that have been stored
+      // For each stored key/value-pair, update "commands"-object to stored value
+      Object.keys(result).forEach((resultKey) => {
+        commands[resultKey] = result[resultKey];
+      });
+    })
+    // Then update all input fields with all values in "commands"-Object
+    .then(() => {
+      // document.getElementsByTagName("body")[0].innerHTML =
+      //   "commands:" + JSON.stringify(commands);
+      
+      // updateInputFields();
     });
-  })
-  // Then update all input fields with all values in "commands"-Object
-  .then(() => {
-    // document.getElementsByTagName("body")[0].innerHTML =
-    //   "commands:" + JSON.stringify(commands);
-    // updateInputFields();
-  });
+}
+
+getStorageCommands();
+
+// Keep Storage-Commands Sync
+setInterval(() => {
+  getStorageCommands();
+}, 1000);
 
 /**********************************************
  *   Add Own Custom Stylesheet
