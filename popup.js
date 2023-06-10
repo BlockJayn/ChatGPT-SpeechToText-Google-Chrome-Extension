@@ -1,4 +1,44 @@
 /**********************************************
+ *   extensionIsActive: Check Storage and handle
+ *********************************************/
+let extensionIsActiveCheckbox = document.getElementById("extensionIsActive");
+
+chrome.storage.sync.get("extensionIsActive").then((result) => {
+  if (result.extensionIsActive === undefined) {
+    // if not in storage set the value initial to true
+    chrome.storage.sync.set({
+      extensionIsActive: true,
+    });
+
+    extensionIsActiveCheckbox.checked = true;
+  }
+  if (result.extensionIsActive === false) {
+    extensionIsActiveCheckbox.checked = false;
+  }
+  if (result.extensionIsActive === true) {
+    extensionIsActiveCheckbox.checked = true;
+  }
+});
+
+/**********************************************
+ *   Eventlistener for Toggle: extensionIsActive
+ *********************************************/
+
+extensionIsActiveCheckbox.addEventListener("click", (event) => {
+  const isChecked = extensionIsActiveCheckbox.checked;
+
+  if (isChecked) {
+    chrome.storage.sync.set({
+      extensionIsActive: true,
+    });
+  } else {
+    chrome.storage.sync.set({
+      extensionIsActive: false,
+    });
+  }
+});
+
+/**********************************************
  *   Custom Commands:
  *   get from localStorage or set default value
  *********************************************/
@@ -37,7 +77,7 @@ function getStorageCommands() {
     .then(() => {
       // document.getElementsByTagName("body")[0].innerHTML =
       //   "commands:" + JSON.stringify(commands);
-      
+
       updateInputFields();
     });
 }
@@ -104,32 +144,32 @@ Object.keys(commands).forEach((inputElementIdKey) => {
   }
 });
 
-/////////////////
+/////////////////////// Unused /////////////////////////////
 
-const btn = document.getElementById("btn");
+// const btn = document.getElementById("btn");
 
-const callStuff = (tab) => {
-  const { id, url } = tab;
-  //   if (url.indexOf("https://github.com/") > -1) {
-  chrome.scripting.executeScript({
-    target: { tabId: id, allFrames: true },
-    files: ["popup-content.js"],
-  });
-  console.log(`Loading: ${url}`);
-  //   }
-};
-
-const getCurrentTab = async () => {
-  let queryOptions = { active: true };
-  let [tab] = await chrome.tabs.query(queryOptions);
-  return tab;
-};
-
-// btn.onclick = function() {
-//   // alert("Button is clicked");
-//   btn.innerHTML = "Running";
-
-//   getCurrentTab().then((tab) => {
-//     callStuff(tab);
+// const callStuff = (tab) => {
+//   const { id, url } = tab;
+//   //   if (url.indexOf("https://github.com/") > -1) {
+//   chrome.scripting.executeScript({
+//     target: { tabId: id, allFrames: true },
+//     files: ["popup-content.js"],
 //   });
+//   console.log(`Loading: ${url}`);
+//   //   }
 // };
+
+// const getCurrentTab = async () => {
+//   let queryOptions = { active: true };
+//   let [tab] = await chrome.tabs.query(queryOptions);
+//   return tab;
+// };
+
+// // btn.onclick = function() {
+// //   // alert("Button is clicked");
+// //   btn.innerHTML = "Running";
+
+// //   getCurrentTab().then((tab) => {
+// //     callStuff(tab);
+// //   });
+// // };

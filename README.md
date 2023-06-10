@@ -48,15 +48,16 @@ _This extension has not been published yet. It will be available soon in Google 
 - [x] Launch Beta
 - [ ] Fix open topics
   - [ ] Fix Enter Command
-  - [ ] Add custom commands
+  - [x] Add custom commands
   - [ ] Add Voice-Button again after URL-change
   - [ ] Add Disclaimer in ReadMe and popup
   - [ ] Add Credits in ReadMe
   - [ ] Add Webspeech API Info
+  - [x] Add Enable/Disable Extension-Switch
   - [ ] Add privacy note - no data stored/shared
   - [ ] Add Non-Monetarization and Accessibility Description
   - [ ] Add codepush / Update Available function + Badge
-  - [ ] Apply Button-Style (green) instead of violet
+  - [x] Apply Button-Style (green) instead of violet
   - [ ] Implement loading of custom CSS from external file
   - [ ] Implement loading JS from external source (similar to codepush?)
   - [ ] Maybe confirm voice commands not with toast, but show them above input field
