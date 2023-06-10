@@ -6,7 +6,7 @@
 // Default commands
 const defaultCommands = {
   commandEnter: "enter",
-  commandBack: "back",
+  commandBack: "backwards",
   commandReplace: "replace X with Y",
   commandClear: "clear input",
   commandStop: "stop",
@@ -86,8 +86,10 @@ Object.keys(commands).forEach((inputElementIdKey) => {
 
       // Set changed value in localStorage
       if (!event.target.value) {
-        // Remove from localStorage if no value
-        chrome.storage.sync.remove(inputElementIdKey);
+        // Set to default in localStorage if no value
+        chrome.storage.sync.set({
+          [inputElementIdKey]: defaultCommands[inputElementIdKey],
+        });
       } else {
         // Add to localStorage
         chrome.storage.sync.set({

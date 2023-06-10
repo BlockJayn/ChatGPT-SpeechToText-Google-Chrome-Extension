@@ -3,38 +3,41 @@
  *   get from localStorage or set default value
  *********************************************/
 
-const commands = {
-  commandEnter: localStorage.getItem("commandEnter")
-    ? localStorage.getItem("commandEnter")
-    : "enter",
-
-  commandBack: localStorage.getItem("commandBack")
-    ? localStorage.getItem("commandBack")
-    : "backwards",
-
-  commandReplace: "replace X with Y", // Changes for commandReplace are not allowed
-
-  commandClear: localStorage.getItem("commandClear")
-    ? localStorage.getItem("commandClear")
-    : "clear input",
-
-  commandStop: localStorage.getItem("commandStop")
-    ? localStorage.getItem("commandStop")
-    : "stop",
+// Default commands
+const defaultCommands = {
+  commandEnter: "enter",
+  commandBack: "backwards",
+  commandReplace: "replace X with Y",
+  commandClear: "clear input",
+  commandStop: "stop",
 };
 
-// TEST COMMAND
-let testCommand;
-let nochnTest = chrome.storage.sync.get("commandTest").then((result) => {
-  testCommand = result.commandTest;
-  console.log("RESULT", result.commandTest);
-  return result.commandTest;
+// Custom Commands - initially set to default commands
+const commands = { ...defaultCommands };
+
+// Keys-Array of all commands
+const defaultCommandIDs = [];
+
+Object.keys(defaultCommands).forEach((key) => {
+  defaultCommandIDs.push(key);
 });
-console.log();
-setTimeout(() => {
-  console.log("testCommand", testCommand);
-  console.log("nochnTest", nochnTest);
-}, 2000);
+
+// Get stored custom-commands from Chrome-Storage
+chrome.storage.sync
+  .get(defaultCommandIDs)
+  .then((result) => {
+    // result returns an object with all custom commands that have been stored
+    // For each stored key/value-pair, update "commands"-object to stored value
+    Object.keys(result).forEach((resultKey) => {
+      commands[resultKey] = result[resultKey];
+    });
+  })
+  // Then update all input fields with all values in "commands"-Object
+  .then(() => {
+    // document.getElementsByTagName("body")[0].innerHTML =
+    //   "commands:" + JSON.stringify(commands);
+    // updateInputFields();
+  });
 
 /**********************************************
  *   Add Own Custom Stylesheet
@@ -244,7 +247,7 @@ recognition.onresult = function(event) {
 
       /* Speech Command: Clear Input | New Try */
 
-      if (final.includes("clear input")) {
+      if (final.includes(commands.commandClear)) {
         // Restart Recognition
         stopRecognotion(false);
         setTimeout(() => {
@@ -259,7 +262,7 @@ recognition.onresult = function(event) {
 
       /* Speech Command: Enter */
 
-      if (final.includes("enter")) {
+      if (final.includes(commands.commandEnter)) {
         final = "";
         speechInputHistory = [];
 
@@ -282,12 +285,7 @@ recognition.onresult = function(event) {
 
       /* Speech Command: Stop */
 
-      if (final.includes(testCommand)) {
-        console.log(
-          "################################stop command:",
-          testCommand
-        );
-
+      if (final.includes(commands.commandStop)) {
         final = final.split(commands.commandStop)[0];
         stopRecognotion(true);
       }
@@ -332,7 +330,7 @@ recognition.onresult = function(event) {
 
       /* Speech Command: One step back */
 
-      if (final.includes("backwards")) {
+      if (final.includes(commands.commandBack)) {
         if (speechInputHistory.length > 0) {
           let lastIndexOfHistory = speechInputHistory.length - 2; // skip the last word "backwards"
 
