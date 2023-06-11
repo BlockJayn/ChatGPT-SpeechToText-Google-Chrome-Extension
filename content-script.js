@@ -57,6 +57,7 @@ async function main() {
 
     if (currentValue !== previousValue) {
       console.log("Textarea value changed:", currentValue);
+
       if (currentValue === "") {
         submitButton.setAttribute("disabled", "");
         submitButton.style.backgroundColor = "background-color: none;";
@@ -205,6 +206,15 @@ async function main() {
   /**********************************************
    *   Run - On Speech-to-Text Result
    *********************************************/
+  let previousInputValue = "";
+
+  recognition.onstart = function(event) {
+    console.log("started");
+  };
+
+  recognition.onaudioend = () => {
+    previousInputValue = inputField.value + " ";
+  };
 
   recognition.onresult = function(event) {
     let final = "";
@@ -228,6 +238,8 @@ async function main() {
         if (final.includes(commands.commandClear)) {
           // Restart Recognition
           stopRecognotion(false);
+          clearInput();
+          previousInputValue = "";
           setTimeout(() => {
             startRecognotion(false);
           }, 400);
@@ -244,19 +256,21 @@ async function main() {
           final = "";
           speechInputHistory = [];
 
-          console.log(submitButton);
+          inputField.click();
 
-          // submitButton.click();
+          inputField.dispatchEvent(new Event("input", { bubbles: true }));
 
-          let keyboardEvent_enter = new KeyboardEvent("keydown", {
-            code: "Enter",
+          const keyboardEvent = new KeyboardEvent("keydown", {
             key: "Enter",
-            charCode: 13,
+            code: "Enter",
             keyCode: 13,
-            view: window,
+            which: 13,
             bubbles: true,
+            cancelable: true,
+            composed: true,
+            isTrusted: true,
           });
-          inputField.dispatchEvent(keyboardEvent_enter);
+          inputField.dispatchEvent(keyboardEvent);
 
           newToast(toast, "Pressed enter.");
         }
@@ -338,7 +352,8 @@ async function main() {
     // console.log("# speechInputHistory:", speechInputHistory);
 
     /* Add to input field in browser */
-    let finalInputValue = final + interim;
+    let finalInputValue = previousInputValue + final + interim;
+
     inputField.value = finalInputValue.trim().replaceAll("  ", " ");
 
     /* Always set focus to input field after */
