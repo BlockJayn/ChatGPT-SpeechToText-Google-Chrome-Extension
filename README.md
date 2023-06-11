@@ -25,6 +25,13 @@
 Simply click on the microphone icon and start talking
 
 <img width="600" alt="project" src="https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension/assets/99530800/37b585c2-4c5b-4c27-89a7-717a61f0a6b9">
+<br><br>
+
+You can configure custom voice commands inside the extension popup.
+
+<img width="395" alt="image" src="https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension/assets/99530800/31e59f48-a01d-40d5-a1c3-20ba275d1dd3">
+
+
 
 ### Installation
 
