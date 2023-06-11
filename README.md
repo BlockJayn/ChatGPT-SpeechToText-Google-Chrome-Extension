@@ -8,8 +8,11 @@
 
   <h3 align="center">ChatGPT Speech To Text - Google Chrome Extension</h3>
 
+  
   <p align="center">
     Google Chrome Extension to enable ChatGPT Speech to Text.
+    <br /> <br />
+    This extension is still under development.
     <br />
     <br />
     <a href="https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension/issues">Report Bug</a>
