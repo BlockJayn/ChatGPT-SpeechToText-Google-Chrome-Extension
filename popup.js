@@ -1,47 +1,17 @@
-/**********************************************
- *   extensionIsActive: Check Storage and handle
- *********************************************/
-let extensionIsActiveCheckbox = document.getElementById("extensionIsActive");
+const extensionIsActiveCheckbox = document.getElementById("extensionIsActive");
 
-chrome.storage.sync.get("extensionIsActive").then((result) => {
-  if (result.extensionIsActive === undefined) {
-    // if not in storage set the value initial to true
-    chrome.storage.sync.set({
-      extensionIsActive: true,
-    });
-
-    extensionIsActiveCheckbox.checked = true;
-  }
-  if (result.extensionIsActive === false) {
-    extensionIsActiveCheckbox.checked = false;
-  }
-  if (result.extensionIsActive === true) {
-    extensionIsActiveCheckbox.checked = true;
-  }
+// Initialize extensionIsActive in storage if not present
+chrome.storage.sync.get("extensionIsActive", ({ extensionIsActive }) => {
+  const isChecked = extensionIsActive !== false;
+  extensionIsActiveCheckbox.checked = isChecked;
+  chrome.storage.sync.set({ extensionIsActive: isChecked });
 });
 
-/**********************************************
- *   Eventlistener for Toggle: extensionIsActive
- *********************************************/
-
-extensionIsActiveCheckbox.addEventListener("click", (event) => {
+// Event listener for extensionIsActive toggle
+extensionIsActiveCheckbox.addEventListener("click", () => {
   const isChecked = extensionIsActiveCheckbox.checked;
-
-  if (isChecked) {
-    chrome.storage.sync.set({
-      extensionIsActive: true,
-    });
-  } else {
-    chrome.storage.sync.set({
-      extensionIsActive: false,
-    });
-  }
+  chrome.storage.sync.set({ extensionIsActive: isChecked });
 });
-
-/**********************************************
- *   Custom Commands:
- *   get from localStorage or set default value
- *********************************************/
 
 // Default commands
 const defaultCommands = {
@@ -52,55 +22,46 @@ const defaultCommands = {
   commandStop: "stop",
 };
 
-// Custom Commands - initially set to default commands
+// Custom commands - initially set to default commands
 const commands = { ...defaultCommands };
 
-// Keys-Array of all commands
-const defaultCommandIDs = [];
-
-Object.keys(defaultCommands).forEach((key) => {
-  defaultCommandIDs.push(key);
-});
-
-// Get stored custom-commands from Chrome-Storage
+// Get stored custom commands from Chrome storage
 function getStorageCommands() {
-  chrome.storage.sync
-    .get(defaultCommandIDs)
-    .then((result) => {
-      // result returns an object with all custom commands that have been stored
-      // For each stored key/value-pair, update "commands"-object to stored value
-      Object.keys(result).forEach((resultKey) => {
-        commands[resultKey] = result[resultKey];
-      });
-    })
-    // Then update all input fields with all values in "commands"-Object
-    .then(() => {
-      // document.getElementsByTagName("body")[0].innerHTML =
-      //   "commands:" + JSON.stringify(commands);
-
-      updateInputFields();
-    });
+  chrome.storage.sync.get(defaultCommands, (result) => {
+    Object.assign(commands, result);
+    updateInputFields();
+  });
 }
 
 getStorageCommands();
 
-/**********************************************
- *   For each key in Object, get corresponding input field with same ID
- *   and get value from localStorage + set values to input field
- *********************************************/
-
+// Update input fields with corresponding command values
 function updateInputFields() {
-  Object.keys(commands).forEach((inputElementIdKey) => {
-    const inputField = document.getElementById(inputElementIdKey);
-
+  for (const [commandKey, commandValue] of Object.entries(commands)) {
+    const inputField = document.getElementById(commandKey);
     if (!inputField) {
-      alert(`Input-Field not found: ${inputElementIdKey}`);
+      console.error(`Input field not found: ${commandKey}`);
+      continue;
     }
+    inputField.value = commandValue;
+    inputField.addEventListener("change", handleInputChange);
+  }
+}
 
-    if (inputField) {
-      inputField.value = commands[inputElementIdKey];
-    }
-  });
+// Handle input field change event
+function handleInputChange(event) {
+  const inputElementIdKey = event.target.id;
+
+  if (inputElementIdKey === "commandReplace") {
+    event.target.value = "";
+    event.target.setAttribute("disabled", "");
+    alert("Changes for this command are not allowed and will not take effect.");
+    return;
+  }
+
+  const inputValue =
+    event.target.value.trim() || defaultCommands[inputElementIdKey];
+  chrome.storage.sync.set({ [inputElementIdKey]: inputValue });
 }
 
 /**********************************************
@@ -113,34 +74,8 @@ Object.keys(commands).forEach((inputElementIdKey) => {
 
   if (!inputField) {
     alert(`Input-Field not found: ${inputElementIdKey}`);
-  }
-
-  if (inputField) {
-    // Add EventListener
-    inputField.addEventListener("change", (event) => {
-      // Prevent changes for commandReplace
-      if (event.target.id === "commandReplace") {
-        document.getElementById(event.target.id).value = "";
-        document.getElementById(event.target.id).setAttribute("disabled", "");
-        alert(
-          "Changes for this command are not allowed and will not take effect."
-        );
-        return;
-      }
-
-      // Set changed value in localStorage
-      if (!event.target.value) {
-        // Set to default in localStorage if no value
-        chrome.storage.sync.set({
-          [inputElementIdKey]: defaultCommands[inputElementIdKey],
-        });
-      } else {
-        // Add to localStorage
-        chrome.storage.sync.set({
-          [inputElementIdKey]: event.target.value.trim(),
-        });
-      }
-    });
+  } else {
+    inputField.addEventListener("change", handleInputChange);
   }
 });
 
