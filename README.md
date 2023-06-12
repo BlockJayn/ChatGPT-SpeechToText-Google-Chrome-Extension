@@ -38,9 +38,9 @@ _This extension has not been published yet. It will be available soon in Google 
 3. Install
 4. Visit https://chat.openai.com/ and click the microphone-icon in the input-field
 
-## Voice-Commands
+### Voice-Commands
 
-You can configure custom voice commands inside the extension popup.
+Within the extension popup, users have the capability to configure personalized voice commands.
 <br><br>
 <img width="395" alt="image" src="https://github.com/BlockJayn/ChatGPT-SpeechToText-Google-Chrome-Extension/assets/99530800/31e59f48-a01d-40d5-a1c3-20ba275d1dd3">
 
