@@ -59,9 +59,9 @@ You can configure custom voice commands inside the extension popup.
   - [ ] Add Voice-Button again after URL-change
   - [x] Add Disclaimer in ReadMe and popup
   - [ ] Add Credits in ReadMe
-  - [ ] Add Webspeech API Info
+  - [x] Add Webspeech API Info
   - [x] Add Enable/Disable Extension-Switch
-  - [ ] Add privacy note - no data stored/shared
+  - [x] Add privacy note
   - [ ] Add Non-Monetarization and Accessibility Description
   - [x] Apply Button-Style (green) instead of violet
   - [ ] Maybe confirm voice commands not with toast, but show them above input field
@@ -76,6 +76,10 @@ Contributions are what make the open source community such an amazing place to l
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
+
+## Privacy Notice
+
+This tool is built solely for accessibility purposes and does not pursue monetization goals. We prioritize the privacy and confidentiality of your text, voice, and data. While using our tool, your information may be shared with the "WebSpeech API" to provide the intended functionality. The WebSpeech API is a browser-based technology that allows websites and web applications to convert speech to text and vice versa. It provides speech recognition and synthesis capabilities, enabling voice-based interactions with web-based content. The WebSpeech API itself does not collect data. However, the data processed through speech recognition or synthesis may be transmitted to a service provider for processing and improving their speech recognition or synthesis models.
 
 ## License
 
