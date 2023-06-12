@@ -62,7 +62,7 @@ Within the extension popup, users have the capability to configure personalized 
   - [x] Add Webspeech API Info
   - [x] Add Enable/Disable Extension-Switch
   - [x] Add privacy note
-  - [ ] Add Non-Monetarization and Accessibility Description
+  - [x] Add Non-Monetarization and Accessibility info
   - [x] Apply Button-Style (green) instead of violet
   - [ ] Maybe confirm voice commands not with toast, but show them above input field
 - [ ] Launch Release v1 in Chrome Store
