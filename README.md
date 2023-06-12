@@ -79,7 +79,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## Privacy Notice
 
-This tool is built solely for accessibility purposes and does not pursue monetization goals. We prioritize the privacy and confidentiality of your text, voice, and data. While using our tool, your information may be shared with the "WebSpeech API" to provide the intended functionality. The WebSpeech API is a browser-based technology that allows websites and web applications to convert speech to text and vice versa. It provides speech recognition and synthesis capabilities, enabling voice-based interactions with web-based content. The WebSpeech API itself does not collect data. However, the data processed through speech recognition or synthesis may be transmitted to a service provider for processing and improving their speech recognition or synthesis models.
+This tool is built solely for accessibility purposes and does not pursue monetization goals. The privacy and confidentiality of your text, voice, and data are prioritized. While using this tool, your information may be shared with the "WebSpeech API" to provide the intended functionality. The WebSpeech API is a browser-based technology that allows websites and web applications to convert speech to text and vice versa. It provides speech recognition and synthesis capabilities, enabling voice-based interactions with web-based content. The WebSpeech API itself does not collect data. However, the data processed through speech recognition or synthesis may be transmitted to a service provider for processing and improving their speech recognition or synthesis models.
 
 ## License
 
