@@ -87,7 +87,7 @@ Distributed under the MIT License.
 
 ## Disclaimer
 
-This is a private project. We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with the OpenAI, ChatGPT, or any of its subsidiaries or its affiliates.
+This is a private project. It is not affiliated, associated, authorized, endorsed by, or in any way officially connected with OpenAI, ChatGPT, or any of their subsidiaries or affiliates.
 
 ## Contact
 
