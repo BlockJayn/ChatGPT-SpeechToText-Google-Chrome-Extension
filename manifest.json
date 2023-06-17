@@ -15,6 +15,10 @@
     "storage"
   ],
 
+  "host_permissions": [
+    "*://chat.openai.com/*"
+  ],
+
   "icons": {
     "16": "images/icons/icon-16.png",
     "48": "images/icons/icon-48.png",
