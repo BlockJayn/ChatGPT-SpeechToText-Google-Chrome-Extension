@@ -58,7 +58,7 @@ Within the extension popup, users have the capability to configure personalized 
   - [x] Add custom commands
   - [ ] Add Voice-Button again after URL-change
   - [x] Add Disclaimer in ReadMe and popup
-  - [ ] Add Credits in ReadMe
+  - [ ] Add Credits in README
   - [x] Add Webspeech API Info
   - [x] Add Enable/Disable Extension-Switch
   - [x] Add privacy note
